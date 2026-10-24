@@ -24,8 +24,12 @@ def apply_discount(price: float, discount_percent: float) -> float:
     if price < 0:
         raise ValueError("Price cannot be negative")
 
-    # BUG: no guard for discount_percent > 100 → returns negative price
-    return round(price * (1 - discount_percent / 100), 2)
+    # Guard against discounts greater than 100% which would produce a negative price.
+    # Compute the discounted amount, then clamp to zero if it falls below 0.
+    discounted = price * (1 - discount_percent / 100)
+    if discounted < 0:
+        discounted = 0.0
+    return round(discounted, 2)
 
 
 def calculate_total(items: list[dict]) -> float:
