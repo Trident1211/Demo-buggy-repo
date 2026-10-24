@@ -34,7 +34,7 @@ def paginate(items: list, page: int = 1, per_page: int = 10) -> dict:
     total_pages = max(1, (total_items + per_page - 1) // per_page)
 
     start = (page - 1) * per_page
-    end = start + per_page - 1  # BUG: should be `start + per_page`
+    end = start + per_page  # Fixed off‑by‑one error: include full page size
 
     return {
         "items": items[start:end],
